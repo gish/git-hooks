@@ -1,0 +1,17 @@
+#!/bin/bash
+RESULT=0
+
+# Validate JS files
+echo "Validating JS files…"
+FILES=`git diff --cached --name-only | grep ".js"`
+for i in $FILES; do
+	OUTPUT=`jshint $i`
+	LINT=$?
+	if [ $LINT != 0 ]
+	then
+		echo -e "\033[31m${OUTPUT}\033[m"
+	fi
+	RESULT=$((${LINT} || ${RESULT}))
+done;
+
+exit $RESULT
