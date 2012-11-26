@@ -10,13 +10,16 @@ case "${1}" in
 		echo "Validating PHP files…"
 		FILES=`git diff --cached --name-only | grep ".php"`
 		for i in $FILES; do
-			OUTPUT=`php -l $i`
-			LINT=$?
-			if [ $LINT != 0 ]
+			if [ -e $i ]
 			then
-				echo -e "\033[31m${OUTPUT}\033[m"
+				OUTPUT=`php -l $i`
+				LINT=$?
+				if [ $LINT != 0 ]
+				then
+					echo -e "\033[31m${OUTPUT}\033[m"
+				fi
+				RESULT=$((${LINT} || ${RESULT}))
 			fi
-			RESULT=$((${LINT} || ${RESULT}))
 		done
         ;;
 esac
