@@ -8,7 +8,7 @@ case "${1}" in
     * )
 		# Validate PHP files
 		echo "Validating PHP files…"
-		FILES=`git diff --cached --name-only | grep ".php"`
+		FILES=`git diff --cached --name-only | egrep -i ".ph[p|tml]"`
 		for i in $FILES; do
 			if [ -e $i ]
 			then
