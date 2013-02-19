@@ -1,11 +1,20 @@
 #!/bin/bash
+RESULT=0
 
-FILES=`git diff --cached --name-only | grep -E "(.js$|.coffee$)"`
-for FILE in $FILES ; do
-    if [ "grep 'console.log' $FILE" ]
-    then
-        echo $FILE " has console.log's left. Please remove."
-        exit 1
-    fi
-done
-exit
+case "${1}" in
+    --about )
+        echo "Checks JS files for console.log() statements"
+        ;;
+    * )
+		FILES=`git diff --cached --name-only | grep -E "(.js$|.coffee$)"`
+		echo "Checking JS for console.log()…"
+		for FILE in $FILES ; do
+		    if [ "grep 'console.log' $FILE" ]
+		    then
+		        echo $FILE "has console.log's left. Please remove."
+		        RESULT=1
+		    fi
+		done
+		;;
+esac
+exit $RESULT
