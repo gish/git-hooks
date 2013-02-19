@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILES=`git diff --cached --name-only | grep ".js"`
+FILES=`git diff --cached --name-only | grep -E "(.js$|.coffee$)"`
 for FILE in $FILES ; do
     if [ "grep 'console.log' $FILE" ]
     then
